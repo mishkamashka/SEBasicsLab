@@ -1,0 +1,47 @@
+<project name="SEBasicsLab" default="compile">
+
+    <property file="build.properties"/>
+
+    <path id="libs.gson">
+        <fileset dir="${dir.lib}">
+            <include name="gson-2.8.2.jar"/>
+        </fileset>
+    </path>
+
+    <path id="libs.json">
+        <fileset dir="${dir.lib}">
+            <include name="json-20160810.jar"/>
+        </fileset>
+    </path>
+
+    <target name="clean">
+        <echo>Cleaning...</echo>
+        <delete includeemptydirs="true"
+                dir="${dir.build}"/>
+        <delete dir="${dir.target}"/>
+    </target>
+
+    <target name="mkdirs">
+        <mkdir dir="${dir.classes}"/>
+    </target>
+
+    <target name="compile" depends="mkdirs">
+        <echo>Compiling project...</echo>
+        <javac srcdir="${dir.src.java}" destdir="${dir.classes}">
+            <classpath>
+                <path refid="libs.gson"/>
+                <path refid="libs.json"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile">
+        <echo>Building project...</echo>
+        <antcall target="compile"/>
+        <mkdir dir="${dir.target}"/>
+        <jar manifest="MANIFEST.MF" jarfile="${dir.target}/SEBasicsLab.jar">
+        </jar>
+    </target>
+
+
+</project>
